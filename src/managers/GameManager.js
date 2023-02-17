@@ -6,3 +6,20 @@ export const getGames = () => {
     })
         .then(response => response.json())
 }
+export const createGame = (game) => {
+    return fetch("", {
+        headers:{
+            "Authorization":`Token ${localStorage.getItem("lu_token")}`
+        }
+    })
+        .then(response => response.json())
+}
+
+export const getGenres = () => {
+    return fetch("", { 
+        headers:{
+            "Authorization":`Token ${localStorage.getItem("lu_token")}`
+        }
+    })
+        .then((response => response.json()))
+}
