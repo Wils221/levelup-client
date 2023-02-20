@@ -15,7 +15,8 @@ export const GameList = (props) => {
                     return <section key={`game--${game.id}`} className="game">
                         <div className="game__name">{game.name}</div>
                         <div className="game__description">{game.description}</div>
-                        <div className="game__genre"> {game.genre}</div>
+                        <div className="game__genre"> {game.genre.genre}</div>
+        
                     </section>
                 })
             }

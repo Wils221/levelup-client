@@ -50,36 +50,21 @@ export const GameForm = () => {
                     />
                 </div>
             </fieldset>
-                    <label htmlFor="min_player">Genre: </label>
-                    <input type="number" id="players" name="min_player" min="1" max="100" required className="form-control"
-                        value={parseInt(currentGame.min_player)}
-                        onChange={changeGameState}>
-            </input>
-            
             <fieldset>
                 <div className="form-group">
-                    <label htmlFor="max_player">Maximum Number of Players: </label>
-                    <input type="number" name="max_player" required className="form-control"
-                        value={currentGame.max_player}
-                        onChange={changeGameState}
-                    />
-                </div>
-            </fieldset>
-            <fieldset>
-                <div className="form-group">
-                <label className="label">Type of Game: </label>
+                <label className="label">Genre of Game: </label>
                 <select
-                        name="game_type"
+                        name="genre"
                         className="form-control"
                         value={currentGame.game_type}
                         onChange={(event) => {
                             const copy = { ...currentGame }
-                            copy.game_type = parseInt(event.target.value)
+                            copy.genre = parseInt(event.target.value)
                             setCurrentGame(copy)
                         }}>
                         <option value="0">Choose:</option>
-                        {genres.map(type => ( 
-                                    <option key={`game_type--${type.id}`} value={type.id} name={type.label}>{type.label}</option>                         
+                        {genres.map(genre => ( 
+                                    <option key={`genre--${genre.id}`} value={genre.id} name={genre.genre}>{genre.genre}</option>                         
                             ))}
                     </select>
                 </div>
@@ -92,11 +77,9 @@ export const GameForm = () => {
                     evt.preventDefault()
 
                     const game = {
-                        min_player: currentGame.min_player,
-                        max_player: currentGame.max_player,
-                        description: currentGame.description,
                         name: currentGame.name,
-                        game_type: currentGame.game_type
+                        description: currentGame.description,
+                        genre: currentGame.genre
                     }
 
                     // Send POST request to your API
