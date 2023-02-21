@@ -25,3 +25,4 @@ export const getGenres = () => {
     })
         .then((response => response.json()))
 }
+
