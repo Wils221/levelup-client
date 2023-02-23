@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from 'react-router-dom'
-import { createGame, getGenres } from '../../managers/GameManager.js'
+import { getGenres } from '../../managers/GameManager.js'
+import { UpdateGame } from "../../managers/GameManager.js"
+import { getSingleGame } from "../../managers/GameManager.js"
+import { useParams } from "react-router-dom"
 import "./game.css"
 
-
-export const GameForm = () => {
+export const EditGame = () => {
     const navigate = useNavigate()
     const [genres, setGenres] = useState([])
+    const {gameId} = useParams()
 
     /*
         Since the input fields are bound to the values of
@@ -24,6 +27,16 @@ export const GameForm = () => {
         getGenres().then(res => setGenres(res))
     }, [])
 
+    useEffect(() => {
+        getSingleGame(gameId).then(res => {
+            setCurrentGame({
+                name: res.name,
+                description: res.description,
+                genre: res.genre.id // set the genre property with the ID of the genre object
+            })
+        })
+    }, [gameId])
+
     const changeGameState = (event) => {
         const copy = { ...currentGame }
         copy[event.target.name] = event.target.value
@@ -32,12 +45,12 @@ export const GameForm = () => {
 
     return (
         <form className="gameForm">
-            <h2 className="gameForm__title">Register New Game</h2>
+            <h2 className="gameForm__title">Edit Game</h2>
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="name">Game Name: </label>
                     <input type="text" name="name" required autoFocus className="form-control"
-                        value={currentGame.name}
+                        defaultValue={currentGame.name}
                         onChange={changeGameState}
                     />
                 </div>
@@ -57,7 +70,7 @@ export const GameForm = () => {
                 <select
                         name="genre"
                         className="form-control"
-                        value={currentGame.game_type}
+                        value={currentGame.genre}
                         onChange={(event) => {
                             const copy = { ...currentGame }
                             copy.genre = parseInt(event.target.value)
@@ -84,12 +97,10 @@ export const GameForm = () => {
                     }
 
                     // Send POST request to your API
-                    createGame(game)
+                    UpdateGame(game, gameId)
                         .then(() => navigate("/games"))
                 }}
-                className="btn btn-primary">Create</button>
+                className="btn btn-primary">Update</button>
         </form>
     )
 }
-
-//write me an edit game form that shows the existing information based off the code I have in this file in react.js 18
