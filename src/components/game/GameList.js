@@ -8,22 +8,11 @@ export const GameList = (props) => {
     
     const navigate = useNavigate()
 
-    function refreshPage() {
-        window.location.reload(false)
-    }
-
     useEffect(() => {
         getGames().then(data => setGames(data))
-    }, [])
-
-    const handleClick = (id) => {
-        deleteGame(id).then(refreshPage)
-
-    
-    
-    }   
-
+    }, [])  
     return (
+        
         <article className="games">
             {
                 games.map(game => {
@@ -40,7 +29,8 @@ export const GameList = (props) => {
                         <div className="game__footer">
                             <button
                                 onClick={() => {
-                                    handleClick(game.id)
+                                    deleteGame(game.id)
+                                    .then(window.location.reload(false))
                                 }}>Delete</button>
                         </div>
         
